@@ -1,0 +1,77 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="css.css" >
+    </head>
+    <body>
+        <div class="wrapper">
+            <form class="form-signin" id="class1">       
+              <h2 class="form-signin-heading">مقدار ساعت اضافه کاری خود را وارد کنید</h2>
+              <input type="number" id="grossSalray" placeholder="حقوق ناخالص">
+              <input type="number" id="overtimeAmount" placeholder="اضافه کار">
+              <button class="form-signin-button" type="button" onclick="handle()">محاسبه حقوق</button>   
+            </form>
+          </div>
+          <dev>
+            <table id="result">
+              <tr>
+                <th>مبلغ کلی</th>
+                <th>بیمه تامین اجتماعی</th>
+                <th>مالیات</th>
+                <th>اضافه کاری</th>
+                <th>حقوق خالص</th>
+              </tr>
+              <tr>
+                <td id="total">0</td>
+                <td id="socialInsurance">0</td>
+                <td id="tax">0</td>
+                <td id="overtime">0</td>
+                <td id="pure">0</td>
+              </tr>
+            </table>
+            <p id="resultr"></p>
+          </dev>
+          <script src="index.js"></script>
+          <script>
+            function calculateMoney(overtimeAmount, grossSalary) {
+              const ezafe = overtimeAmount * 71672;
+              const total = grossSalary*1000000 + ezafe;
+              const tamin_ejtemaei = 0.07 * total;
+              const takmili = 582500;
+              const tax = this.calculateTax(total);
+              const loan = 250000;
+              const pure = total - (loan + tax + takmili + tamin_ejtemaei);
+                      
+              document.getElementById("total").innerHTML = total;
+              document.getElementById("socialInsurance").innerHTML = tamin_ejtemaei.toFixed(0);
+              document.getElementById("overtime").innerHTML = ezafe;
+              document.getElementById("tax").innerHTML = tax;
+              document.getElementById("pure").innerHTML = pure.toFixed(0);
+
+            }
+
+            function calculateTax(total) {
+                let tax;
+            
+                if (total > 12000000 && total < 18000000) {
+                    tax = (0.20*(total- 12000000) + 1000000);
+                }
+                if (total > 18000000 && total < 24000000) {
+                    tax = (0.25*(total- 18000000) + 2200000);
+                }
+                if (total > 8000000) {
+                    tax = (0.15*(total - 8000000)) + (0.10*(8000000-4000000));
+                }
+                if (total <= 8000000) {
+                    tax = (0.10*(total - 4000000));
+                }
+              
+                return tax;
+            }
+            function handle () {
+              let overtimeAmount = document.getElementById("overtimeAmount").value;
+              let grossSalray = document.getElementById("grossSalray").value;
+              calculateMoney(overtimeAmount, grossSalray);
+            }
+          </script>
+    </body>
+</html>
